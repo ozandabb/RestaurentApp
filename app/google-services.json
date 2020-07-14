@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "314966070193",
+    "firebase_url": "https://kohenda-kanne-ac49a.firebaseio.com",
+    "project_id": "kohenda-kanne-ac49a",
+    "storage_bucket": "kohenda-kanne-ac49a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:314966070193:android:afdda788f973272c3e2390",
+        "android_client_info": {
+          "package_name": "com.example.kohendakanne"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "314966070193-qbtj8bvrqg754s3vjmv6ft5rql30l9qs.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.kohendakanne",
+            "certificate_hash": "6a01efa342117d4cda3341445bfc1473b0b2e3c3"
+          }
+        },
+        {
+          "client_id": "314966070193-120t8q8loq0mkahmqvu3cv05hnj0em6k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyARjtaVa4paJKnm8TTsU6bhhYUfhNgNd3M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "314966070193-120t8q8loq0mkahmqvu3cv05hnj0em6k.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
