@@ -15,16 +15,21 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.kohendakanne.Map.MapsActivity;
+import com.example.kohendakanne.Restaurant.RestaurantsActivity;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.GeoPoint;
@@ -35,6 +40,7 @@ import static com.example.kohendakanne.constants.PERMISSIONS_REQUEST_ENABLE_GPS;
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
+    private static final int ACTIVITY_NUM = 0;
 
     private Button btn, btn2, btn3, btn4;
     private FirebaseAuth mAuth;
@@ -45,6 +51,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        setupBottomNavBar();
 
         mAuth = FirebaseAuth.getInstance();
 //        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
@@ -62,19 +70,18 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-//        btn3.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent goRest = new Intent(MainActivity.this , RawMapViewDemoActivity.class);
-//                startActivity(goRest);
-//            }
-//        });
+        btn3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent goRest = new Intent(MainActivity.this , MapsActivity.class);
+                startActivity(goRest);
+            }
+        });
 
         btn2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent goAccount = new Intent(MainActivity.this , AccountSetting.class);
+                Intent goAccount = new Intent(MainActivity.this , RestaurantsActivity.class);
                 startActivity(goAccount);
             }
         });
@@ -84,6 +91,49 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 mAuth.signOut();
                 sendToLogin();
+            }
+        });
+    }
+
+
+
+
+
+    private void setupBottomNavBar(){
+        BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavViewBar);
+
+        Menu menu = bottomNavigationView.getMenu();
+        MenuItem menuItem = menu.getItem(ACTIVITY_NUM);
+        menuItem.setChecked(true);
+
+
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()){
+                    case R.id.ic_home:
+                        Intent homeIntent = new Intent(MainActivity.this,MainActivity.class);
+                        startActivity(homeIntent);
+                        finish();
+                        break;
+                    case R.id.ic_category:
+                        Intent ExerciseIntent = new Intent(MainActivity.this, RestaurantsActivity.class);
+                        startActivity(ExerciseIntent);
+                        finish();
+                        break;
+                    case R.id.ic_add:
+                        Intent runIntent = new Intent(MainActivity.this, MapsActivity.class);
+                        startActivity(runIntent);
+                        finish();
+                        break;
+                    case R.id.ic_device:
+                        Intent deviceIntent = new Intent(MainActivity.this, AccountSetting.class);
+                        startActivity(deviceIntent);
+                        finish();
+                        break;
+                }
+
+                return false;
             }
         });
     }
@@ -225,7 +275,7 @@ public class MainActivity extends AppCompatActivity {
 //        }
 //
 //    }
-//
+
 
 
 

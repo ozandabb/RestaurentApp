@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="districts">
+        <item>Select a District</item>
+        <item>Kegalle</item>
+        <item>Mathale</item>
+        <item>Kurunagala</item>
+        <item>Nuwara Eliya</item>
+        <item>Kandy</item>
+        <item>Jaffna</item>
+        <item>Polonnaruwa</item>
+        <item>Anuradhapura</item>
+        <item>Rathnapura</item>
+        <item>Trincomalee</item>
+        <item>Madakalapu</item>
+        <item>Monaragala</item>
+        <item>Hombanthota</item>
+        <item>Galle</item>
+        <item>Puththalama</item>
+        <item>Gampaha</item>
+    </string-array>
+</resources>

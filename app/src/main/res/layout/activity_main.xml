@@ -54,4 +54,14 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.559" />
 
+    <RelativeLayout
+        android:layout_marginTop="-20dp"
+        android:background="@drawable/home_content_post"
+        android:paddingTop="30dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <include layout="@layout/layout_botton_navigation_view"></include>
+    </RelativeLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

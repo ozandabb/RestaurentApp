@@ -135,6 +135,21 @@ public class AddRestaurantActivity extends AppCompatActivity {
                                             addpostProgree.setVisibility(View.INVISIBLE);
                                         }
                                     });
+
+                                    firebaseFirestore.collection("RestaurantsNames").add(postMap).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<DocumentReference> task) {
+                                            if (task.isSuccessful()){
+                                                Toast.makeText(AddRestaurantActivity.this,"Restaurant added" , Toast.LENGTH_LONG).show();
+
+                                            }else {
+                                                String err = task.getException().getMessage();
+                                                Toast.makeText(AddRestaurantActivity.this,"Upload error" + err, Toast.LENGTH_LONG).show();
+
+                                            }
+                                            addpostProgree.setVisibility(View.INVISIBLE);
+                                        }
+                                    });
                                 }
                             });
 
