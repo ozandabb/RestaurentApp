@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -31,13 +32,16 @@ import com.example.kohendakanne.MainActivity;
 import com.example.kohendakanne.Map.MapsActivity;
 import com.example.kohendakanne.Models.Restaurant;
 import com.example.kohendakanne.R;
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.badge.BadgeUtils;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -51,10 +55,10 @@ public class RestaurantsActivity extends AppCompatActivity  implements AdapterVi
 
     private RecyclerView restaurant_list;
     private FirebaseFirestore firebaseFirestore;
-    private FirestoreRecyclerAdapter adapter;
-    private Uri mainImageUri = null;
+    private FirestoreRecyclerAdapter adapter, searchRecycleAdapter;
     private Spinner spinner;
     private EditText restaurantSearch;
+    private ImageView searchBtn;
 
     private static final int ACTIVITY_NUM = 1;
 
@@ -69,10 +73,11 @@ public class RestaurantsActivity extends AppCompatActivity  implements AdapterVi
         restaurant_list = findViewById(R.id.restaurant_list);
         spinner = findViewById(R.id.spinner1);
         restaurantSearch = findViewById(R.id.restaurant_search);
+        searchBtn = findViewById(R.id.searchBtn);
 
         spinner.setOnItemSelectedListener(this);
-        
-        Query query = firebaseFirestore.collection("RestaurantsNames");
+
+        Query query = firebaseFirestore.collection("RestaurantsNames").orderBy("restaurant_name");
         FirestoreRecyclerOptions<Restaurant> options = new FirestoreRecyclerOptions.Builder<Restaurant>()
                 .setQuery(query, Restaurant.class)
                 .build();
@@ -101,6 +106,50 @@ public class RestaurantsActivity extends AppCompatActivity  implements AdapterVi
 
         Log.d("RestaurantsActivity", "onCreate: " + adapter);
 
+
+        restaurantSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+                Query query = firebaseFirestore.collection("RestaurantsNames").whereEqualTo("restaurant_name",s.toString()).orderBy("restaurant_name");
+                FirestoreRecyclerOptions<Restaurant> options2 = new FirestoreRecyclerOptions.Builder<Restaurant>()
+                        .setQuery(query, Restaurant.class)
+                        .build();
+
+                adapter.updateOptions(options2);
+            }
+        });
+
+        String Text = spinner.getSelectedItem().toString();
+        Log.d("RestaurantsActivity", "onCreate: "+ Text);
+
+//        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//
+//                Query query3 = firebaseFirestore.collection("RestaurantsNames").whereEqualTo("district",Text).orderBy("restaurant_name");
+//                FirestoreRecyclerOptions<Restaurant> options3 = new FirestoreRecyclerOptions.Builder<Restaurant>()
+//                        .setQuery(query3, Restaurant.class)
+//                        .build();
+//
+//                adapter.updateOptions(options3);
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parent) {
+//            }
+//        });
+
     }
 
     @Override
@@ -125,7 +174,6 @@ public class RestaurantsActivity extends AppCompatActivity  implements AdapterVi
     public void onNothingSelected(AdapterView<?> parent) {
 
     }
-
 
     private class RestaurantViewHolder extends RecyclerView.ViewHolder {
 
@@ -192,4 +240,6 @@ public class RestaurantsActivity extends AppCompatActivity  implements AdapterVi
             }
         });
     }
+
+
 }
