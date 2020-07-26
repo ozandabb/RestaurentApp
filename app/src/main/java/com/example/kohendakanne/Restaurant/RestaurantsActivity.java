@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -21,6 +22,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -42,6 +44,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.badge.BadgeUtils;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -53,14 +56,18 @@ import java.util.List;
 
 public class RestaurantsActivity extends AppCompatActivity  implements AdapterView.OnItemSelectedListener {
 
+    private static final String TAG = "RestaurantsActivity";
+
     private RecyclerView restaurant_list;
     private FirebaseFirestore firebaseFirestore;
-    private FirestoreRecyclerAdapter adapter, searchRecycleAdapter;
+    private FirestoreRecyclerAdapter adapter;
     private Spinner spinner;
     private EditText restaurantSearch;
     private ImageView searchBtn;
+    private  String Restaurantname, district;
 
     private static final int ACTIVITY_NUM = 1;
+    private OnItemClickListener mListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,7 +85,7 @@ public class RestaurantsActivity extends AppCompatActivity  implements AdapterVi
         spinner.setOnItemSelectedListener(this);
 
         Query query = firebaseFirestore.collection("RestaurantsNames").orderBy("restaurant_name");
-        FirestoreRecyclerOptions<Restaurant> options = new FirestoreRecyclerOptions.Builder<Restaurant>()
+        final FirestoreRecyclerOptions<Restaurant> options = new FirestoreRecyclerOptions.Builder<Restaurant>()
                 .setQuery(query, Restaurant.class)
                 .build();
 
@@ -89,16 +96,31 @@ public class RestaurantsActivity extends AppCompatActivity  implements AdapterVi
             public RestaurantViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
                 View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.single_restaurant_item, parent, false);
 
+                Log.d(TAG, "V i e w t y p e " + viewType);
+
+//                view.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        Intent goRestaurant = new Intent(RestaurantsActivity.this, SingleRestaurantActivity.class);
+//                        goRestaurant.putExtra("Restaurant_Name" ,Restaurantname );
+//                        goRestaurant.putExtra("district",district );
+//                        Log.d(TAG, "Show res ID: "+ getTaskId());
+//                        startActivity(goRestaurant);
+//                    }
+//                });
+
                 return new RestaurantViewHolder(view);
             }
 
             @Override
-            protected void onBindViewHolder(@NonNull RestaurantViewHolder holder, int position, @NonNull Restaurant model) {
+            protected void onBindViewHolder(@NonNull RestaurantViewHolder holder, final int position, @NonNull final Restaurant model) {
                 holder.restaurant_name.setText(model.getRestaurant_name());
                 holder.restaurant_district.setText(model.getDistrict());
                 Picasso.get().load(model.getImage_url()).into(holder.restaurant_image);
             }
         } ;
+
+
 
         restaurant_list.setHasFixedSize(true);
         restaurant_list.setLayoutManager(new LinearLayoutManager(this));
@@ -130,26 +152,44 @@ public class RestaurantsActivity extends AppCompatActivity  implements AdapterVi
             }
         });
 
-        String Text = spinner.getSelectedItem().toString();
-        Log.d("RestaurantsActivity", "onCreate: "+ Text);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-//        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//
-//                Query query3 = firebaseFirestore.collection("RestaurantsNames").whereEqualTo("district",Text).orderBy("restaurant_name");
-//                FirestoreRecyclerOptions<Restaurant> options3 = new FirestoreRecyclerOptions.Builder<Restaurant>()
-//                        .setQuery(query3, Restaurant.class)
-//                        .build();
-//
-//                adapter.updateOptions(options3);
-//            }
-//
-//            @Override
-//            public void onNothingSelected(AdapterView<?> parent) {
-//            }
-//        });
+                String Text = spinner.getSelectedItem().toString();
 
+                Query query3 = firebaseFirestore.collection("RestaurantsNames").whereEqualTo("district",Text);
+
+                Log.d(TAG, "onItemSelected: " + query3.toString());
+                FirestoreRecyclerOptions<Restaurant> options3 = new FirestoreRecyclerOptions.Builder<Restaurant>()
+                        .setQuery(query3, Restaurant.class)
+                        .build();
+
+                if (Text.equals("Select a District")){
+                    Query query = firebaseFirestore.collection("RestaurantsNames").orderBy("restaurant_name");
+                    FirestoreRecyclerOptions<Restaurant> options = new FirestoreRecyclerOptions.Builder<Restaurant>()
+                            .setQuery(query, Restaurant.class)
+                            .build();
+                    adapter.updateOptions(options);
+                }
+                else {
+                    adapter.updateOptions(options3);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(int position);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        mListener = listener;
     }
 
     @Override
@@ -208,7 +248,6 @@ public class RestaurantsActivity extends AppCompatActivity  implements AdapterVi
         Menu menu = bottomNavigationView.getMenu();
         MenuItem menuItem = menu.getItem(ACTIVITY_NUM);
         menuItem.setChecked(true);
-
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
