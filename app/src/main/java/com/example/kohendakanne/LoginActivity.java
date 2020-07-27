@@ -13,6 +13,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.kohendakanne.Admin.AdminLogin;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -55,20 +56,42 @@ public class LoginActivity extends AppCompatActivity {
                 String loginEmail = loginEmailText.getText().toString();
                 String loginPass = loginPasswordText.getText().toString();
                 if (!TextUtils.isEmpty(loginEmail) && !TextUtils.isEmpty(loginPass)) {
-                    loginProgressBar.setVisibility(View.VISIBLE);
-                    mAuth.signInWithEmailAndPassword(loginEmail,loginPass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()){
-                                sendToMain();
-                            }else{
-                                String error = task.getException().getMessage();
-                                Toast.makeText(LoginActivity.this,"Invalid Login",Toast.LENGTH_LONG).show();
-                            }
-                            loginProgressBar.setVisibility(View.INVISIBLE);
+                    if (loginEmail.equals("admin@mail.com") && loginPass.equals("admin97"))
+                    {
+                        mAuth.signInWithEmailAndPassword(loginEmail,loginPass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                if (task.isSuccessful()){
+                                    Intent goMain = new Intent(LoginActivity.this, AdminLogin.class);
+                                    startActivity(goMain);
+                                    finish();
+                                }else{
+                                    String error = task.getException().getMessage();
+                                    Toast.makeText(LoginActivity.this,"Invalid Login",Toast.LENGTH_LONG).show();
+                                }
+                                loginProgressBar.setVisibility(View.INVISIBLE);
 
-                        }
-                    });
+                            }
+                        });
+
+//                        finish();
+                    }
+                    else {
+                        loginProgressBar.setVisibility(View.VISIBLE);
+                        mAuth.signInWithEmailAndPassword(loginEmail,loginPass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                if (task.isSuccessful()){
+                                    sendToMain();
+                                }else{
+                                    String error = task.getException().getMessage();
+                                    Toast.makeText(LoginActivity.this,"Invalid Login",Toast.LENGTH_LONG).show();
+                                }
+                                loginProgressBar.setVisibility(View.INVISIBLE);
+
+                            }
+                        });
+                    }
                 }
 
             }

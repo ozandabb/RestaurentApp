@@ -17,10 +17,23 @@
             android:indeterminate="true"
             android:visibility="invisible" />
     </RelativeLayout>
+    <RelativeLayout
+        android:layout_below="@id/rel00"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="8dp">
+        <RelativeLayout
+            android:layout_below="@id/rel00"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
     <RelativeLayout
         android:id="@+id/rel01"
-        android:layout_below="@+id/rel00"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <ImageView
@@ -42,7 +55,8 @@
             android:layout_marginRight="30dp"
             android:layout_marginLeft="30dp"
             android:layout_marginBottom="10dp"
-            android:textColor="#000000"
+            android:textColor="#20c139"
+            android:textStyle="bold"
             android:textSize="16dp"
             android:text="Add Restaurant Details"/>
     </RelativeLayout>
@@ -59,7 +73,7 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="30dp"
             android:layout_marginLeft="30dp"
-            android:hint="Enter Restaurant Name"
+            android:hint="Restaurant Name"
             android:ems="10"
             android:gravity="start|top"
             android:inputType="textMultiLine" />
@@ -70,13 +84,36 @@
         android:layout_below="@id/rel02"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+        <Spinner
+            android:id="@+id/spinner1"
+            android:layout_marginRight="30dp"
+            android:layout_marginLeft="30dp"
+            android:entries="@array/districts"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"/>
+<!--        <EditText-->
+<!--            android:id="@+id/addPostText2"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginRight="30dp"-->
+<!--            android:layout_marginLeft="30dp"-->
+<!--            android:hint="Enter District"-->
+<!--            android:ems="10"-->
+<!--            android:gravity="start|top"-->
+<!--            android:inputType="textMultiLine" />-->
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/relumma"
+        android:layout_below="@id/rel021"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
         <EditText
-            android:id="@+id/addPostText2"
+            android:id="@+id/contactNo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginRight="30dp"
             android:layout_marginLeft="30dp"
-            android:hint="Enter District"
+            android:hint="Contact Number"
             android:ems="10"
             android:gravity="start|top"
             android:inputType="textMultiLine" />
@@ -84,7 +121,7 @@
 
     <RelativeLayout
         android:id="@+id/rel0200"
-        android:layout_below="@id/rel021"
+        android:layout_below="@id/relumma"
         android:layout_width="match_parent"
         android:layout_marginTop="10dp"
         android:layout_height="wrap_content">
@@ -95,7 +132,8 @@
             android:layout_marginRight="30dp"
             android:layout_marginLeft="30dp"
             android:layout_marginBottom="10dp"
-            android:textColor="#000000"
+            android:textColor="#20c139"
+            android:textStyle="bold"
             android:textSize="16dp"
             android:text="Add Restaurant Details"/>
 
@@ -152,6 +190,29 @@
             android:text="Next"
             />
     </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/relGoAdmin"
+                android:layout_below="@id/rel03"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <Button
+                    android:id="@+id/GoADMIN"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginRight="30dp"
+                    android:textColor="#ffffff"
+                    android:background="@color/colorPrimary"
+                    android:text="Go to Admin Dashboard"
+                    />
+            </RelativeLayout>
 
+
+
+
+        </RelativeLayout>
+    </ScrollView>
+    </RelativeLayout>
 
 </RelativeLayout>

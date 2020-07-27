@@ -17,7 +17,11 @@
         android:roundIcon="@drawable/logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Restaurant.SingleRestaurantActivity"></activity>
+        <activity android:name=".Admin.ViewRestaurant"></activity>
+        <activity android:name=".Admin.ViewUsers" />
+        <activity android:name=".Admin.AdminDashboard" />
+        <activity android:name=".Admin.AdminLogin" />
+        <activity android:name=".Restaurant.SingleRestaurantActivity" />
         <activity android:name=".Restaurant.RestaurantsActivity" />
         <activity android:name=".Test" />
 

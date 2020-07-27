@@ -64,8 +64,6 @@ public class RestaurantsActivity extends AppCompatActivity  implements AdapterVi
     private Spinner spinner;
     private EditText restaurantSearch;
     private ImageView searchBtn;
-    private  String Restaurantname, district;
-
     private static final int ACTIVITY_NUM = 1;
     private OnItemClickListener mListener;
 
@@ -95,20 +93,6 @@ public class RestaurantsActivity extends AppCompatActivity  implements AdapterVi
             @Override
             public RestaurantViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
                 View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.single_restaurant_item, parent, false);
-
-                Log.d(TAG, "V i e w t y p e " + viewType);
-
-//                view.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        Intent goRestaurant = new Intent(RestaurantsActivity.this, SingleRestaurantActivity.class);
-//                        goRestaurant.putExtra("Restaurant_Name" ,Restaurantname );
-//                        goRestaurant.putExtra("district",district );
-//                        Log.d(TAG, "Show res ID: "+ getTaskId());
-//                        startActivity(goRestaurant);
-//                    }
-//                });
-
                 return new RestaurantViewHolder(view);
             }
 
@@ -117,6 +101,17 @@ public class RestaurantsActivity extends AppCompatActivity  implements AdapterVi
                 holder.restaurant_name.setText(model.getRestaurant_name());
                 holder.restaurant_district.setText(model.getDistrict());
                 Picasso.get().load(model.getImage_url()).into(holder.restaurant_image);
+                holder.single_itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent goSingle = new Intent(RestaurantsActivity.this, SingleRestaurantActivity.class);
+                        goSingle.putExtra("Restaurant_Name" ,model.getRestaurant_name() );
+                        goSingle.putExtra("district",model.getDistrict() );
+                        startActivity(goSingle);
+
+                    }
+                });
+
             }
         } ;
 
@@ -220,6 +215,7 @@ public class RestaurantsActivity extends AppCompatActivity  implements AdapterVi
         private TextView restaurant_name;
         private TextView restaurant_district;
         private ImageView restaurant_image;
+        LinearLayout single_itemView;
 
         public RestaurantViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -227,6 +223,16 @@ public class RestaurantsActivity extends AppCompatActivity  implements AdapterVi
             restaurant_name = itemView.findViewById(R.id.restaurant_name);
             restaurant_district = itemView.findViewById(R.id.restaurant_district);
             restaurant_image = itemView.findViewById(R.id.restaurant_image);
+            single_itemView = itemView.findViewById(R.id.single_item);
+
+//            itemView.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    int position = getAdapterPosition();
+//
+//
+//                }
+//            });
         }
     }
 

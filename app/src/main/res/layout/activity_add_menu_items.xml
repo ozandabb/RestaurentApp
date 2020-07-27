@@ -5,13 +5,34 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".AddMenuItems">
-    <ProgressBar
-        android:id="@+id/add_post_progressBar"
-        style="?android:attr/progressBarStyleHorizontal"
+
+            <RelativeLayout
+                android:id="@+id/rel00"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            <ProgressBar
+                android:id="@+id/add_post_progressBar"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:indeterminate="true"
+                android:visibility="invisible" />
+            </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_below="@id/rel00"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:indeterminate="true"
-        android:visibility="invisible" />
+        android:layout_height="wrap_content">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:layout_editor_absoluteX="8dp"
+            tools:layout_editor_absoluteY="8dp">
+            <RelativeLayout
+                android:layout_below="@id/rel00"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
     <RelativeLayout
         android:id="@+id/rel01"
@@ -23,6 +44,8 @@
             android:layout_height="250dp"
             app:srcCompat="@drawable/addimage" />
     </RelativeLayout>
+
+
 
     <RelativeLayout
         android:id="@+id/rel02"
@@ -59,8 +82,42 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/rel03"
+        android:id="@+id/relbee"
         android:layout_below="@id/rel021"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <EditText
+            android:id="@+id/Ingredients"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="30dp"
+            android:layout_marginLeft="30dp"
+            android:hint="Ingredients "
+            android:ems="10"
+            android:gravity="start|top"
+            android:inputType="textMultiLine" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/relText"
+        android:layout_below="@id/relbee"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginLeft="30dp"
+            android:textColor="#20c139"
+            android:textStyle="bold"
+            android:textSize="16dp"
+            android:text="You can add Items by clicking 'ADD MENU ITEM' again and again. When you finish adding items then you can select Finish button to finish you adding menu option. "/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rel03"
+        android:layout_below="@id/relText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <Button
@@ -72,17 +129,49 @@
             android:layout_marginRight="30dp"
             android:textColor="#ffffff"
             android:background="@color/colorPrimary"
-            android:text="Next"
+            android:text="Add Menu Item"
             />
     </RelativeLayout>
+
     <RelativeLayout
-        android:id="@+id/rel031"
+        android:id="@+id/relabee"
         android:layout_below="@id/rel03"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:id="@+id/textView"/>
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginLeft="30dp"
+            android:textColor="#20c139"
+            android:textStyle="bold"
+            android:textSize="16dp"
+            android:text="Are you finish adding menu items? Now you can click Finish button"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/gaaa"
+        android:layout_below="@id/relabee"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/finishBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:textColor="#ffffff"
+            android:background="@color/colorPrimary"
+            android:text="Finish"
+            />
+    </RelativeLayout>
+
+
+
+
+            </RelativeLayout>
+        </ScrollView>
     </RelativeLayout>
 </RelativeLayout>

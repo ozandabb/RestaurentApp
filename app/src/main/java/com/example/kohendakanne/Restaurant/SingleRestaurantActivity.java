@@ -18,14 +18,12 @@ public class SingleRestaurantActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_single_restaurant);
 
-        Intent intent = getIntent();
-        resName = intent.getStringExtra("Restaurant_Name");
-//        resDistrict = intent.getStringExtra("district");
+        resName = getIntent().getStringExtra("Restaurant_Name");
+        resDistrict = getIntent().getStringExtra("district");
 
         textView = findViewById(R.id.textView1);
 
         textView.setText(resName + " - " + resDistrict);
-
 
     }
 }

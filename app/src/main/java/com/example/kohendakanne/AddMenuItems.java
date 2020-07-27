@@ -17,6 +17,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.kohendakanne.Admin.AdminDashboard;
 import com.example.kohendakanne.Models.MenuItems;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -37,15 +38,12 @@ import java.util.Random;
 public class AddMenuItems extends AppCompatActivity {
 
     String resName, resID, resDistrict;
-    private TextView textView;
-
-    private MenuItems mChatroom;
 
     private static final int MAX_LENGTH = 100;
 
     private ImageView post_image;
-    private EditText newPostDescription, newPostDistrict;
-    private Button newPostBtn;
+    private EditText newPostDescription, newPostDistrict, Ingredients;
+    private Button newPostBtn ,finishBtn;
     private Uri postImageUri;
     private ProgressBar addpostProgree;
     private String user_id;
@@ -64,9 +62,6 @@ public class AddMenuItems extends AppCompatActivity {
         resID = intent.getStringExtra("restaurant_id");
         resDistrict = intent.getStringExtra("district");
 
-        textView = findViewById(R.id.textView);
-        textView.setText(resName + " " +  resID + " " + resDistrict);
-
         storageReference = FirebaseStorage.getInstance().getReference();
         firebaseFirestore = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
@@ -75,8 +70,19 @@ public class AddMenuItems extends AppCompatActivity {
         post_image = findViewById(R.id.addPostImage);
         newPostDescription = findViewById(R.id.addPostText);
         newPostDistrict = findViewById(R.id.addPostText2);
+        Ingredients = findViewById(R.id.Ingredients);
         newPostBtn = findViewById(R.id.post_btn);
+        finishBtn = findViewById(R.id.finishBtn);
         addpostProgree = findViewById(R.id.add_post_progressBar);
+
+        finishBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent goAdmin = new Intent(AddMenuItems.this, AdminDashboard.class);
+                startActivity(goAdmin);
+                finish();
+            }
+        });
 
         post_image.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,7 +100,8 @@ public class AddMenuItems extends AppCompatActivity {
             public void onClick(View v) {
                 final String RestName = newPostDescription.getText().toString();
                 final String district = newPostDistrict.getText().toString();
-                if (!TextUtils.isEmpty(RestName) && !TextUtils.isEmpty(district) && postImageUri != null){
+                final String Ingred = Ingredients.getText().toString();
+                if (!TextUtils.isEmpty(RestName) && !TextUtils.isEmpty(district) && !TextUtils.isEmpty(Ingred) && postImageUri != null){
                     addpostProgree.setVisibility(View.VISIBLE);
                     String randomName = random();
                     StorageReference filePath = storageReference.child("Meu_Items").child(randomName + ".jpg");
@@ -113,23 +120,26 @@ public class AddMenuItems extends AppCompatActivity {
                                     postMap.put("restaurant_id", resID);
                                     postMap.put("meal_name",RestName);
                                     postMap.put("price",district);
+                                    postMap.put("ingredients",Ingred);
 
                                     firebaseFirestore.collection("Restaurants").document(resName + "-" + resDistrict).collection("Menu").add(postMap).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
                                         @Override
                                         public void onComplete(@NonNull Task<DocumentReference> task) {
+                                            addpostProgree.setVisibility(View.INVISIBLE);
+                                        }
+                                    });
+
+                                    firebaseFirestore.collection("MenuItems").add(postMap).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<DocumentReference> task) {
                                             if (task.isSuccessful()){
                                                 Toast.makeText(AddMenuItems.this,"Menu added" , Toast.LENGTH_LONG).show();
-                                                Intent goAddMenu = new Intent(AddMenuItems.this, RawMapViewDemoActivity.class);
-                                                goAddMenu.putExtra("Restaurant_Name" ,resName );
-                                                goAddMenu.putExtra("district",resDistrict );
-                                                startActivity(goAddMenu);
 
                                             }else {
                                                 String err = task.getException().getMessage();
                                                 Toast.makeText(AddMenuItems.this,"Upload error" + err, Toast.LENGTH_LONG).show();
 
                                             }
-                                            addpostProgree.setVisibility(View.INVISIBLE);
                                         }
                                     });
                                 }

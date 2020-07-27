@@ -15,8 +15,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.example.kohendakanne.Admin.AdminDashboard;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -38,18 +40,16 @@ import java.util.Random;
 public class AddRestaurantActivity extends AppCompatActivity {
 
     private static final String TAG = "AddRestaurantActivity";
-
     private static final int MAX_LENGTH = 100;
-
-
     private EditText LatitudeText , LongitudeText;
 
     private ImageView post_image;
-    private EditText newPostDescription, newPostDistrict;
-    private Button newPostBtn;
+    private EditText newPostDescription, newPostDistrict, contactNo;
+    private Button newPostBtn, GoADMIN;
     private Uri postImageUri;
     private ProgressBar addpostProgree;
     private String user_id;
+    private Spinner spinner;
 
     private StorageReference storageReference;
     private FirebaseFirestore firebaseFirestore;
@@ -71,16 +71,28 @@ public class AddRestaurantActivity extends AppCompatActivity {
         post_image = findViewById(R.id.addPostImage);
         newPostDescription = findViewById(R.id.addPostText);
         newPostDistrict = findViewById(R.id.addPostText2);
+        contactNo = findViewById(R.id.contactNo);
         newPostBtn = findViewById(R.id.post_btn);
+        GoADMIN = findViewById(R.id.GoADMIN);
         addpostProgree = findViewById(R.id.add_post_progressBar);
+        spinner = findViewById(R.id.spinner1);
+
+        GoADMIN.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent godmin = new Intent(AddRestaurantActivity.this, AdminDashboard.class);
+                startActivity(godmin);
+                finish();
+            }
+        });
 
         post_image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 CropImage.activity()
                         .setGuidelines(CropImageView.Guidelines.ON)
-                        .setMinCropResultSize(512,512)
-                        .setAspectRatio(1,1)
+                        .setMinCropResultSize(1000,500)
+                        .setAspectRatio(2,1)
                         .start(AddRestaurantActivity.this);
             }
         });
@@ -89,13 +101,15 @@ public class AddRestaurantActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 final String RestName = newPostDescription.getText().toString();
-                final String district = newPostDistrict.getText().toString();
+//                final String district = newPostDistrict.getText().toString();
+                final String Text = spinner.getSelectedItem().toString();
+                final String contact = contactNo.getText().toString();
                 final String Latitude = LatitudeText.getText().toString();
                 double lat = Double.parseDouble(Latitude);
                 final String Longitude = LongitudeText.getText().toString();
                 double lon = Double.parseDouble(Longitude);
                 final GeoPoint geoPoint = new GeoPoint(lat,lon);
-                if (!TextUtils.isEmpty(RestName) && !TextUtils.isEmpty(district) && postImageUri != null){
+                if (!TextUtils.isEmpty(RestName) && !TextUtils.isEmpty(contact) && !TextUtils.isEmpty(Latitude) && !TextUtils.isEmpty(Longitude) && postImageUri != null){
                     addpostProgree.setVisibility(View.VISIBLE);
                     final String randomName = random();
                     StorageReference filePath = storageReference.child("restaurant_images").child(randomName + ".jpg");
@@ -111,10 +125,11 @@ public class AddRestaurantActivity extends AppCompatActivity {
                                     postMap.put("image_url",download_url);
                                     postMap.put("restaurant_id" , randomName);
                                     postMap.put("restaurant_name",RestName);
-                                    postMap.put("district",district);
+                                    postMap.put("district",Text);
+                                    postMap.put("contact",contact);
                                     postMap.put("GeoPoint",geoPoint);
 
-                                    firebaseFirestore.collection("Restaurants").document(RestName + "-" +district).collection("details").add(postMap).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                                    firebaseFirestore.collection("Restaurants").document(RestName + "-" +Text).collection("details").add(postMap).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
                                         @Override
                                         public void onComplete(@NonNull Task<DocumentReference> task) {
                                             if (task.isSuccessful()){
@@ -123,7 +138,7 @@ public class AddRestaurantActivity extends AppCompatActivity {
                                                 Intent goAddMenu = new Intent(AddRestaurantActivity.this, AddMenuItems.class);
                                                 goAddMenu.putExtra("restaurant_id", randomName);
                                                 goAddMenu.putExtra("Restaurant_Name" ,RestName );
-                                                goAddMenu.putExtra("district",district );
+                                                goAddMenu.putExtra("district",Text );
                                                 Log.d(TAG, "onComplete: "+ getTaskId());
                                                 startActivity(goAddMenu);
 
@@ -139,15 +154,14 @@ public class AddRestaurantActivity extends AppCompatActivity {
                                     firebaseFirestore.collection("RestaurantsNames").add(postMap).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
                                         @Override
                                         public void onComplete(@NonNull Task<DocumentReference> task) {
-                                            if (task.isSuccessful()){
-                                                Toast.makeText(AddRestaurantActivity.this,"Restaurant added" , Toast.LENGTH_LONG).show();
-
-                                            }else {
-                                                String err = task.getException().getMessage();
-                                                Toast.makeText(AddRestaurantActivity.this,"Upload error" + err, Toast.LENGTH_LONG).show();
-
-                                            }
-                                            addpostProgree.setVisibility(View.INVISIBLE);
+//                                            if (task.isSuccessful()){
+//                                                Toast.makeText(AddRestaurantActivity.this,"Restaurant added" , Toast.LENGTH_LONG).show();
+//
+//                                            }else {
+//                                                String err = task.getException().getMessage();
+//                                                Toast.makeText(AddRestaurantActivity.this,"Upload error" + err, Toast.LENGTH_LONG).show();
+//
+//                                            }
                                         }
                                     });
                                 }
@@ -156,6 +170,9 @@ public class AddRestaurantActivity extends AppCompatActivity {
                         }
                     });
                 }
+//                else {
+//                    Toast.makeText(AddRestaurantActivity.this,"Please fill all the details including the Image" , Toast.LENGTH_LONG).show();
+//                }
             }
         });
     }
