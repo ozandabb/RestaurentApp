@@ -3,59 +3,61 @@ package com.example.kohendakanne.Models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class MenuItems implements Parcelable {
-    private String restaurant_name;
-    private String res_id;
-
-    public MenuItems(String res_name, String res_id) {
-        this.restaurant_name = res_name;
-        this.res_id = res_id;
-    }
+public class MenuItems {
+    private String restaurant_id;
+    private String price;
+    private String meal_name;
+    private String ingredients;
+    private String image_url;
 
     public MenuItems() {
     }
 
-    protected MenuItems(Parcel in) {
-        restaurant_name = in.readString();
-        res_id = in.readString();
+    public MenuItems(String restaurant_id, String price, String meal_name, String ingredients, String image_url) {
+        this.restaurant_id = restaurant_id;
+        this.price = price;
+        this.meal_name = meal_name;
+        this.ingredients = ingredients;
+        this.image_url = image_url;
     }
 
-    public static final Creator<MenuItems> CREATOR = new Creator<MenuItems>() {
-        @Override
-        public MenuItems createFromParcel(Parcel in) {
-            return new MenuItems(in);
-        }
-
-        @Override
-        public MenuItems[] newArray(int size) {
-            return new MenuItems[size];
-        }
-    };
-
-    public String getRes_name() {
-        return restaurant_name;
+    public String getRestaurant_id() {
+        return restaurant_id;
     }
 
-    public void setRes_name(String res_name) {
-        this.restaurant_name = res_name;
+    public void setRestaurant_id(String restaurant_id) {
+        this.restaurant_id = restaurant_id;
     }
 
-    public String getRes_id() {
-        return res_id;
+    public String getPrice() {
+        return price;
     }
 
-    public void setRes_id(String res_id) {
-        this.res_id = res_id;
+    public void setPrice(String price) {
+        this.price = price;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
+    public String getMeal_name() {
+        return meal_name;
     }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(restaurant_name);
-        dest.writeString(res_id);
+    public void setMeal_name(String meal_name) {
+        this.meal_name = meal_name;
+    }
+
+    public String getIngredients() {
+        return ingredients;
+    }
+
+    public void setIngredients(String ingredients) {
+        this.ingredients = ingredients;
+    }
+
+    public String getImage_url() {
+        return image_url;
+    }
+
+    public void setImage_url(String image_url) {
+        this.image_url = image_url;
     }
 }

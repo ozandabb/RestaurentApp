@@ -8,16 +8,18 @@ public class Restaurant {
     private String district;
     private String image_url;
     private String restaurant_id;
+    private String contact;
     private GeoPoint GeoPoint;
 
     public Restaurant() {
     }
 
-    public Restaurant(String restaurant_name, String district, String image_url, String restaurant_id, com.google.firebase.firestore.GeoPoint geoPoint) {
+    public Restaurant(String restaurant_name, String district, String image_url, String restaurant_id, String contact, com.google.firebase.firestore.GeoPoint geoPoint) {
         this.restaurant_name = restaurant_name;
         this.district = district;
         this.image_url = image_url;
         this.restaurant_id = restaurant_id;
+        this.contact = contact;
         GeoPoint = geoPoint;
     }
 
@@ -59,5 +61,13 @@ public class Restaurant {
 
     public void setGeoPoint(com.google.firebase.firestore.GeoPoint geoPoint) {
         GeoPoint = geoPoint;
+    }
+
+    public String getContact() {
+        return contact;
+    }
+
+    public void setContact(String contact) {
+        this.contact = contact;
     }
 }

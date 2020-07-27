@@ -122,7 +122,10 @@ public class AddMenuItems extends AppCompatActivity {
                                     postMap.put("price",district);
                                     postMap.put("ingredients",Ingred);
 
-                                    firebaseFirestore.collection("Restaurants").document(resName + "-" + resDistrict).collection("Menu").add(postMap).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                                    firebaseFirestore.collection("Restaurants")
+                                            .document(resName + "-" + resDistrict)
+                                            .collection("Menu")
+                                            .add(postMap).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
                                         @Override
                                         public void onComplete(@NonNull Task<DocumentReference> task) {
                                             addpostProgree.setVisibility(View.INVISIBLE);

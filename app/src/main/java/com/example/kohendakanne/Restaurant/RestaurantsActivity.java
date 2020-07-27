@@ -106,9 +106,20 @@ public class RestaurantsActivity extends AppCompatActivity  implements AdapterVi
                     public void onClick(View v) {
                         Intent goSingle = new Intent(RestaurantsActivity.this, SingleRestaurantActivity.class);
                         goSingle.putExtra("Restaurant_Name" ,model.getRestaurant_name() );
+                        goSingle.putExtra("restaurant_id" ,model.getRestaurant_id() );
                         goSingle.putExtra("district",model.getDistrict() );
+                        goSingle.putExtra("image",model.getImage_url() );
                         startActivity(goSingle);
 
+                    }
+                });
+
+                holder.contactResBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent dial = new Intent(Intent.ACTION_DIAL);
+                        dial.setData(Uri.parse("tel:" + model.getContact()));
+                        startActivity(dial);
                     }
                 });
 
@@ -215,6 +226,7 @@ public class RestaurantsActivity extends AppCompatActivity  implements AdapterVi
         private TextView restaurant_name;
         private TextView restaurant_district;
         private ImageView restaurant_image;
+        private Button contactResBtn;
         LinearLayout single_itemView;
 
         public RestaurantViewHolder(@NonNull View itemView) {
@@ -224,6 +236,7 @@ public class RestaurantsActivity extends AppCompatActivity  implements AdapterVi
             restaurant_district = itemView.findViewById(R.id.restaurant_district);
             restaurant_image = itemView.findViewById(R.id.restaurant_image);
             single_itemView = itemView.findViewById(R.id.single_item);
+            contactResBtn = itemView.findViewById(R.id.contactResBtn);
 
 //            itemView.setOnClickListener(new View.OnClickListener() {
 //                @Override
