@@ -18,7 +18,9 @@ import android.widget.TextView;
 
 import com.example.kohendakanne.AccountSetting;
 import com.example.kohendakanne.MainActivity;
+import com.example.kohendakanne.MapActivity;
 import com.example.kohendakanne.Models.MenuItems;
+import com.example.kohendakanne.Models.Restaurant;
 import com.example.kohendakanne.R;
 import com.example.kohendakanne.RegisterActivity;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
@@ -26,6 +28,7 @@ import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.firestore.Query;
 
 import com.squareup.picasso.Picasso;
@@ -35,8 +38,9 @@ public class SingleRestaurantActivity extends AppCompatActivity {
     private static final String TAG = "SingleRestaurantActivit";
     private static final int ACTIVITY_NUM = 1;
 
-    private TextView textView;
+    private TextView textView, direction;
     String resName, resDistrict, resID, image;
+    GeoPoint geoPoint;
     private FirebaseFirestore firebaseFirestore;
     ImageView restImage;
     private FirestoreRecyclerAdapter adaptera;
@@ -54,15 +58,29 @@ public class SingleRestaurantActivity extends AppCompatActivity {
         resID = getIntent().getStringExtra("restaurant_id");
         image = getIntent().getStringExtra("image");
 
+        image = getIntent().getStringExtra("latitude");
+        image = getIntent().getStringExtra("image");
+
         textView = findViewById(R.id.textView1);
         firebaseFirestore = FirebaseFirestore.getInstance();
         restImage = findViewById(R.id.restImage);
         menu_list = findViewById(R.id.menu_list);
+        direction = findViewById(R.id.direction);
+
+
+        direction.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent homeIntent2 = new Intent(SingleRestaurantActivity.this, MapActivity.class);
+                homeIntent2.putExtra("Restaurant_Name" , resName);
+                homeIntent2.putExtra("restaurant_id" ,resID );
+                startActivity(homeIntent2);
+            }
+        });
+
 
         textView.setText(resName);
         Picasso.get().load(image).into(restImage);
-//        int converted =Integer.parseInt(image);
-//        restImage.setImageResource(converted);
 
         Query query = firebaseFirestore.collection("MenuItems").whereEqualTo("restaurant_id",resID).orderBy("price");
         FirestoreRecyclerOptions<MenuItems> options2 = new FirestoreRecyclerOptions.Builder<MenuItems>()

@@ -5,20 +5,29 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.example.kohendakanne.Restaurant.RestaurantsActivity;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -26,19 +35,24 @@ public class MainActivity extends AppCompatActivity {
     private static final int ACTIVITY_NUM = 0;
 
     private FirebaseAuth mAuth;
+    private FirebaseFirestore firebaseFirestore;
     ImageView logoutBtn;
     RelativeLayout main02;
+    private TextView count_Restaurants;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        firebaseFirestore = FirebaseFirestore.getInstance();
+
         setupBottomNavBar();
 
         mAuth = FirebaseAuth.getInstance();
         main02 = findViewById(R.id.main02);
         logoutBtn = findViewById(R.id.logoutBtn);
+        count_Restaurants = findViewById(R.id.count_Restaurants);
 
         logoutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,42 +70,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-//        btn = (Button) findViewById(R.id.button);
-//        btn2 = findViewById(R.id.button2);
-//        btn3 = findViewById(R.id.button3);
-//        btn4 = findViewById(R.id.button4);
-//
-//        btn4.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent goRestAdd = new Intent(MainActivity.this , AddRestaurantActivity.class);
-//                startActivity(goRestAdd);
-//            }
-//        });
-//
-//        btn3.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent goRest = new Intent(MainActivity.this , AccountSetting.class);
-//                startActivity(goRest);
-//            }
-//        });
-//
-//        btn2.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent goAccount = new Intent(MainActivity.this , RestaurantsActivity.class);
-//                startActivity(goAccount);
-//            }
-//        });
-//
-//        btn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                mAuth.signOut();
-//                sendToLogin();
-//            }
-//        });
     }
 
 

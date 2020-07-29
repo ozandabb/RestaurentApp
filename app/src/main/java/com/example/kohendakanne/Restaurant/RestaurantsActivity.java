@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -33,24 +34,25 @@ import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.squareup.picasso.Picasso;
 
-public class RestaurantsActivity extends AppCompatActivity  {
+public class RestaurantsActivity extends AppCompatActivity {
 
     private static final String TAG = "RestaurantsActivity";
 
     private RecyclerView restaurant_list;
     private FirebaseFirestore firebaseFirestore;
-//    private FirestoreRecyclerAdapter adapter;
+    private FirestoreRecyclerAdapter adapterSearch;
 //    private Spinner spinner;
     private EditText restaurantSearch;
 //    private ImageView searchBtn;
     private static final int ACTIVITY_NUM = 1;
 
-    private CollectionReference restaurantAll;
-    ResAdapter adapter;
+    private CollectionReference restaurantAll , restaurantAll2;
+    ResAdapter adapter, adapter2;
 
 
     @Override
@@ -62,6 +64,7 @@ public class RestaurantsActivity extends AppCompatActivity  {
 
         firebaseFirestore = FirebaseFirestore.getInstance();
         restaurant_list = findViewById(R.id.restaurant_list);
+        restaurantSearch = findViewById(R.id.restaurant_search);
 
         restaurantAll = firebaseFirestore.collection("RestaurantsNames");
 
@@ -75,9 +78,8 @@ public class RestaurantsActivity extends AppCompatActivity  {
 
 
 
-
 //        spinner = findViewById(R.id.spinner1);
-        restaurantSearch = findViewById(R.id.restaurant_search);
+
 //        searchBtn = findViewById(R.id.searchBtn);
 //
 //        spinner.setOnItemSelectedListener(this);
@@ -113,7 +115,7 @@ public class RestaurantsActivity extends AppCompatActivity  {
 //
 //                    }
 //                });
-
+//
 //                holder.contactResBtn.setOnClickListener(new View.OnClickListener() {
 //                    @Override
 //                    public void onClick(View v) {
@@ -198,6 +200,25 @@ public class RestaurantsActivity extends AppCompatActivity  {
         restaurant_list.setHasFixedSize(true);
         restaurant_list.setLayoutManager(new LinearLayoutManager(this));
         restaurant_list.setAdapter(adapter);
+
+        adapter.setOnItemClickListener(new ResAdapter.onItemClickListener() {
+            @Override
+            public void onItemClick(DocumentSnapshot documentSnapshot, int position) {
+                Restaurant restaurant = documentSnapshot.toObject(Restaurant.class);
+                String id = documentSnapshot.getId();
+
+                Intent goSingle = new Intent(RestaurantsActivity.this, SingleRestaurantActivity.class);
+                goSingle.putExtra("Restaurant_Name" ,restaurant.getRestaurant_name());
+                goSingle.putExtra("restaurant_id" ,restaurant.getRestaurant_id() );
+                goSingle.putExtra("district",restaurant.getDistrict() );
+                goSingle.putExtra("image",restaurant.getImage_url() );
+                goSingle.putExtra("latitude", restaurant.getLatitude());
+                goSingle.putExtra("longitude", restaurant.getLongitude());
+                startActivity(goSingle);
+
+            }
+        });
+
     }
 
 
