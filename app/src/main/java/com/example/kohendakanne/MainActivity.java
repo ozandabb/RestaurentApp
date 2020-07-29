@@ -9,6 +9,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import com.example.kohendakanne.Restaurant.RestaurantsActivity;
 
@@ -23,8 +25,9 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     private static final int ACTIVITY_NUM = 0;
 
-    private Button btn, btn2, btn3, btn4;
     private FirebaseAuth mAuth;
+    ImageView logoutBtn;
+    RelativeLayout main02;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,29 +37,18 @@ public class MainActivity extends AppCompatActivity {
         setupBottomNavBar();
 
         mAuth = FirebaseAuth.getInstance();
+        main02 = findViewById(R.id.main02);
+        logoutBtn = findViewById(R.id.logoutBtn);
 
-        btn = (Button) findViewById(R.id.button);
-        btn2 = findViewById(R.id.button2);
-        btn3 = findViewById(R.id.button3);
-        btn4 = findViewById(R.id.button4);
-
-        btn4.setOnClickListener(new View.OnClickListener() {
+        logoutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent goRestAdd = new Intent(MainActivity.this , AddRestaurantActivity.class);
-                startActivity(goRestAdd);
+                mAuth.signOut();
+                sendToLogin();
             }
         });
 
-        btn3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent goRest = new Intent(MainActivity.this , AccountSetting.class);
-                startActivity(goRest);
-            }
-        });
-
-        btn2.setOnClickListener(new View.OnClickListener() {
+        main02.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent goAccount = new Intent(MainActivity.this , RestaurantsActivity.class);
@@ -64,13 +56,42 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mAuth.signOut();
-                sendToLogin();
-            }
-        });
+//        btn = (Button) findViewById(R.id.button);
+//        btn2 = findViewById(R.id.button2);
+//        btn3 = findViewById(R.id.button3);
+//        btn4 = findViewById(R.id.button4);
+//
+//        btn4.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent goRestAdd = new Intent(MainActivity.this , AddRestaurantActivity.class);
+//                startActivity(goRestAdd);
+//            }
+//        });
+//
+//        btn3.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent goRest = new Intent(MainActivity.this , AccountSetting.class);
+//                startActivity(goRest);
+//            }
+//        });
+//
+//        btn2.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent goAccount = new Intent(MainActivity.this , RestaurantsActivity.class);
+//                startActivity(goAccount);
+//            }
+//        });
+//
+//        btn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                mAuth.signOut();
+//                sendToLogin();
+//            }
+//        });
     }
 
 
@@ -105,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
                         finish();
                         break;
                     case R.id.ic_device:
-                        Intent deviceIntent = new Intent(MainActivity.this, AccountSetting.class);
+                        Intent deviceIntent = new Intent(MainActivity.this, ProfileActivity.class);
                         startActivity(deviceIntent);
                         finish();
                         break;

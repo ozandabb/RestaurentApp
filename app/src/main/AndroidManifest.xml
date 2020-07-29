@@ -17,7 +17,8 @@
         android:roundIcon="@drawable/logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Admin.ViewRestaurant"></activity>
+        <activity android:name=".ProfileActivity"></activity>
+        <activity android:name=".Admin.ViewRestaurant" />
         <activity android:name=".Admin.ViewUsers" />
         <activity android:name=".Admin.AdminDashboard" />
         <activity android:name=".Admin.AdminLogin" />
