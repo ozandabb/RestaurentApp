@@ -24,17 +24,8 @@
         <activity android:name=".Restaurant.SingleRestaurantActivity" />
         <activity android:name=".Restaurant.RestaurantsActivity" />
         <activity android:name=".Test" />
-
-        <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="@string/google_maps_key" />
-
-        <activity
-            android:name=".Map.MapsActivity"
-            android:label="@string/title_activity_maps" />
         <activity android:name=".AddMenuItems" />
         <activity android:name=".AddRestaurantActivity" />
-        <activity android:name=".RawMapViewDemoActivity" />
         <activity android:name=".AccountSetting" />
         <activity android:name=".SetupActivity" />
         <activity android:name=".RegisterActivity" />

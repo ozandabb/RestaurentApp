@@ -7,12 +7,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
 
-import com.example.kohendakanne.Adapters.RestaurantAdapter;
 import com.example.kohendakanne.AddRestaurantActivity;
 import com.example.kohendakanne.LoginActivity;
-import com.example.kohendakanne.MainActivity;
 import com.example.kohendakanne.R;
-import com.example.kohendakanne.Restaurant.RestaurantsActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
