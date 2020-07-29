@@ -4,30 +4,18 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Parcelable;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.Spinner;
-import android.widget.TextView;
-import com.example.kohendakanne.AccountSetting;
 import com.example.kohendakanne.Adapters.ResAdapter;
 import com.example.kohendakanne.MainActivity;
 import com.example.kohendakanne.Models.Restaurant;
+import com.example.kohendakanne.ProfileActivity;
 import com.example.kohendakanne.R;
 import com.example.kohendakanne.RegisterActivity;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
@@ -37,7 +25,6 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
-import com.squareup.picasso.Picasso;
 
 public class RestaurantsActivity extends AppCompatActivity {
 
@@ -46,13 +33,12 @@ public class RestaurantsActivity extends AppCompatActivity {
     private RecyclerView restaurant_list;
     private FirebaseFirestore firebaseFirestore;
     private FirestoreRecyclerAdapter adapterSearch;
-//    private Spinner spinner;
+    private Spinner spinner;
     private EditText restaurantSearch;
-//    private ImageView searchBtn;
     private static final int ACTIVITY_NUM = 1;
 
-    private CollectionReference restaurantAll , restaurantAll2;
-    ResAdapter adapter, adapter2;
+    private CollectionReference restaurantAll ;
+    ResAdapter adapter;
 
 
     @Override
@@ -65,6 +51,7 @@ public class RestaurantsActivity extends AppCompatActivity {
         firebaseFirestore = FirebaseFirestore.getInstance();
         restaurant_list = findViewById(R.id.restaurant_list);
         restaurantSearch = findViewById(R.id.restaurant_search);
+        spinner = findViewById(R.id.spinner1);
 
         restaurantAll = firebaseFirestore.collection("RestaurantsNames");
 
@@ -78,7 +65,7 @@ public class RestaurantsActivity extends AppCompatActivity {
 
 
 
-//        spinner = findViewById(R.id.spinner1);
+
 
 //        searchBtn = findViewById(R.id.searchBtn);
 //
@@ -133,7 +120,7 @@ public class RestaurantsActivity extends AppCompatActivity {
 //        restaurant_list.setHasFixedSize(true);
 //        restaurant_list.setLayoutManager(new LinearLayoutManager(this));
 //        restaurant_list.setAdapter(adapter);
-//
+////
 //
 //        restaurantSearch.addTextChangedListener(new TextWatcher() {
 //            @Override
@@ -212,8 +199,7 @@ public class RestaurantsActivity extends AppCompatActivity {
                 goSingle.putExtra("restaurant_id" ,restaurant.getRestaurant_id() );
                 goSingle.putExtra("district",restaurant.getDistrict() );
                 goSingle.putExtra("image",restaurant.getImage_url() );
-                goSingle.putExtra("latitude", restaurant.getLatitude());
-                goSingle.putExtra("longitude", restaurant.getLongitude());
+                goSingle.putExtra("id", id);
                 startActivity(goSingle);
 
             }
@@ -303,7 +289,7 @@ public class RestaurantsActivity extends AppCompatActivity {
                         finish();
                         break;
                     case R.id.ic_device:
-                        Intent deviceIntent = new Intent(RestaurantsActivity.this, AccountSetting.class);
+                        Intent deviceIntent = new Intent(RestaurantsActivity.this, ProfileActivity.class);
                         startActivity(deviceIntent);
                         finish();
                         break;

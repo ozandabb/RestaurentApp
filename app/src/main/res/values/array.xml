@@ -12,12 +12,21 @@
         <item>Anuradhapura</item>
         <item>Rathnapura</item>
         <item>Trincomalee</item>
-        <item>Madakalapu</item>
+        <item>Batticalo</item>
         <item>Monaragala</item>
         <item>Hombanthota</item>
         <item>Galle</item>
         <item>Matara</item>
         <item>Puththalama</item>
         <item>Gampaha</item>
+        <item>Colombo</item>
+        <item>Kaluthara</item>
+        <item>Badulla</item>
+        <item>Ampara</item>
+        <item>Mannar</item>
+        <item>Vavniya</item>
+        <item>Mulathiv</item>
+        <item>Kilinochchi</item>
+
     </string-array>
 </resources>

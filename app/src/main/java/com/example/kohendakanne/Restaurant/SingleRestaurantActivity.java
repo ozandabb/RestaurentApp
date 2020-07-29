@@ -21,6 +21,7 @@ import com.example.kohendakanne.MainActivity;
 import com.example.kohendakanne.MapActivity;
 import com.example.kohendakanne.Models.MenuItems;
 import com.example.kohendakanne.Models.Restaurant;
+import com.example.kohendakanne.ProfileActivity;
 import com.example.kohendakanne.R;
 import com.example.kohendakanne.RegisterActivity;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
@@ -38,8 +39,8 @@ public class SingleRestaurantActivity extends AppCompatActivity {
     private static final String TAG = "SingleRestaurantActivit";
     private static final int ACTIVITY_NUM = 1;
 
-    private TextView textView, direction;
-    String resName, resDistrict, resID, image;
+    private TextView textView, direction, textAddress;
+    String resName, resDistrict, resID, image, id;
     GeoPoint geoPoint;
     private FirebaseFirestore firebaseFirestore;
     ImageView restImage;
@@ -57,11 +58,10 @@ public class SingleRestaurantActivity extends AppCompatActivity {
         resDistrict = getIntent().getStringExtra("district");
         resID = getIntent().getStringExtra("restaurant_id");
         image = getIntent().getStringExtra("image");
-
-        image = getIntent().getStringExtra("latitude");
-        image = getIntent().getStringExtra("image");
+        id = getIntent().getStringExtra("id");
 
         textView = findViewById(R.id.textView1);
+        textAddress = findViewById(R.id.textAddressGo);
         firebaseFirestore = FirebaseFirestore.getInstance();
         restImage = findViewById(R.id.restImage);
         menu_list = findViewById(R.id.menu_list);
@@ -74,11 +74,12 @@ public class SingleRestaurantActivity extends AppCompatActivity {
                 Intent homeIntent2 = new Intent(SingleRestaurantActivity.this, MapActivity.class);
                 homeIntent2.putExtra("Restaurant_Name" , resName);
                 homeIntent2.putExtra("restaurant_id" ,resID );
+                homeIntent2.putExtra("id" ,id );
                 startActivity(homeIntent2);
             }
         });
 
-
+        textAddress.setText(resDistrict);
         textView.setText(resName);
         Picasso.get().load(image).into(restImage);
 
@@ -186,7 +187,7 @@ public class SingleRestaurantActivity extends AppCompatActivity {
                         finish();
                         break;
                     case R.id.ic_device:
-                        Intent deviceIntent = new Intent(SingleRestaurantActivity.this, AccountSetting.class);
+                        Intent deviceIntent = new Intent(SingleRestaurantActivity.this, ProfileActivity.class);
                         startActivity(deviceIntent);
                         finish();
                         break;

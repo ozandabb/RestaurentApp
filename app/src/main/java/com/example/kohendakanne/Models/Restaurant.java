@@ -1,19 +1,14 @@
 package com.example.kohendakanne.Models;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 import com.google.firebase.firestore.GeoPoint;
 
-public class Restaurant implements Parcelable {
+public class Restaurant {
 
     private String restaurant_name;
     private String district;
     private String image_url;
     private String restaurant_id;
     private String contact;
-
-    private double latitude, longitude;
     private GeoPoint GeoPoint;
 
     public Restaurant() {
@@ -26,45 +21,6 @@ public class Restaurant implements Parcelable {
         this.restaurant_id = restaurant_id;
         this.contact = contact;
         GeoPoint = geoPoint;
-    }
-
-    protected Restaurant(Parcel in) {
-        restaurant_name = in.readString();
-        district = in.readString();
-        image_url = in.readString();
-        restaurant_id = in.readString();
-        contact = in.readString();
-        latitude = in.readDouble();
-        longitude = in.readDouble();
-        GeoPoint = new GeoPoint(latitude, longitude);
-    }
-
-    public static final Creator<Restaurant> CREATOR = new Creator<Restaurant>() {
-        @Override
-        public Restaurant createFromParcel(Parcel in) {
-            return new Restaurant(in);
-        }
-
-        @Override
-        public Restaurant[] newArray(int size) {
-            return new Restaurant[size];
-        }
-    };
-
-    public double getLatitude() {
-        return latitude;
-    }
-
-    public void setLatitude(double latitude) {
-        this.latitude = latitude;
-    }
-
-    public double getLongitude() {
-        return longitude;
-    }
-
-    public void setLongitude(double longitude) {
-        this.longitude = longitude;
     }
 
     public String getRestaurant_name() {
@@ -113,19 +69,5 @@ public class Restaurant implements Parcelable {
 
     public void setContact(String contact) {
         this.contact = contact;
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        latitude = getGeoPoint().getLatitude();
-        longitude = getGeoPoint().getLongitude();
-        dest.writeDouble(latitude);
-        dest.writeDouble(longitude);
-
     }
 }
