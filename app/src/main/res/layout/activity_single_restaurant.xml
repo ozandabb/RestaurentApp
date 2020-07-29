@@ -21,14 +21,15 @@
 
     <RelativeLayout
         android:layout_below="@id/rel0"
-        android:layout_marginTop="-20dp"
-        android:background="@drawable/home_content_post"
+        android:layout_marginTop="-50dp"
+        android:background="@drawable/single_rest_background"
         android:paddingTop="20dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <RelativeLayout
             android:id="@+id/relGoo"
+            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
@@ -36,17 +37,33 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Restaurant Name"
-                android:textAlignment="center"
+                android:layout_marginLeft="30dp"
                 android:textColor="#20c139"
                 android:textStyle="bold"
-                android:layout_marginBottom="10dp"
-                android:textSize="25dp"/>
+                android:textSize="20dp"/>
 
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/relAddress"
+            android:layout_below="@+id/relGoo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/textAddress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Address"
+                android:layout_marginLeft="30dp"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold"
+                android:layout_marginBottom="10dp"
+                android:textSize="15dp"/>
         </RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/relGoo2"
-            android:layout_below="@+id/relGoo"
+            android:layout_below="@+id/relAddress"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 

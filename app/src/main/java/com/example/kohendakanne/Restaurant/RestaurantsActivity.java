@@ -21,6 +21,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import com.example.kohendakanne.AccountSetting;
@@ -30,12 +31,15 @@ import com.example.kohendakanne.R;
 import com.example.kohendakanne.RegisterActivity;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.squareup.picasso.Picasso;
 
-public class RestaurantsActivity extends AppCompatActivity   {
+public class RestaurantsActivity extends AppCompatActivity  implements AdapterView.OnItemSelectedListener {
 
     private static final String TAG = "RestaurantsActivity";
 
@@ -46,6 +50,7 @@ public class RestaurantsActivity extends AppCompatActivity   {
     private EditText restaurantSearch;
     private ImageView searchBtn;
     private static final int ACTIVITY_NUM = 1;
+    private OnItemClickListener mListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,8 +64,8 @@ public class RestaurantsActivity extends AppCompatActivity   {
         spinner = findViewById(R.id.spinner1);
         restaurantSearch = findViewById(R.id.restaurant_search);
         searchBtn = findViewById(R.id.searchBtn);
-//
-//        spinner.setOnItemSelectedListener(this);
+
+        spinner.setOnItemSelectedListener(this);
 
         Query query = firebaseFirestore.collection("RestaurantsNames").orderBy("restaurant_name");
         final FirestoreRecyclerOptions<Restaurant> options = new FirestoreRecyclerOptions.Builder<Restaurant>()
@@ -94,14 +99,14 @@ public class RestaurantsActivity extends AppCompatActivity   {
                     }
                 });
 
-//                holder.contactResBtn.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        Intent dial = new Intent(Intent.ACTION_DIAL);
-//                        dial.setData(Uri.parse("tel:" + model.getContact()));
-//                        startActivity(dial);
-//                    }
-//                });
+                holder.contactResBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent dial = new Intent(Intent.ACTION_DIAL);
+                        dial.setData(Uri.parse("tel:" + model.getContact()));
+                        startActivity(dial);
+                    }
+                });
 
             }
         } ;
@@ -112,62 +117,94 @@ public class RestaurantsActivity extends AppCompatActivity   {
         restaurant_list.setLayoutManager(new LinearLayoutManager(this));
         restaurant_list.setAdapter(adapter);
 
+        Log.d("RestaurantsActivity", "onCreate: " + adapter);
 
-//        restaurantSearch.addTextChangedListener(new TextWatcher() {
-//            @Override
-//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-//
-//            }
-//
-//            @Override
-//            public void onTextChanged(CharSequence s, int start, int before, int count) {
-//
-//            }
-//
-//            @Override
-//            public void afterTextChanged(Editable s) {
-//
-//                Query query = firebaseFirestore.collection("RestaurantsNames").whereEqualTo("restaurant_name",s.toString()).orderBy("restaurant_name");
-//                FirestoreRecyclerOptions<Restaurant> options2 = new FirestoreRecyclerOptions.Builder<Restaurant>()
-//                        .setQuery(query, Restaurant.class)
-//                        .build();
-//
-//                adapter.updateOptions(options2);
-//            }
-//        });
-//
-//        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//
-//                String Text = spinner.getSelectedItem().toString();
-//
-//                Query query3 = firebaseFirestore.collection("RestaurantsNames").whereEqualTo("district",Text);
-//
-//                Log.d(TAG, "onItemSelected: " + query3.toString());
-//                FirestoreRecyclerOptions<Restaurant> options3 = new FirestoreRecyclerOptions.Builder<Restaurant>()
-//                        .setQuery(query3, Restaurant.class)
-//                        .build();
-//
-//                if (Text.equals("Select a District")){
-//                    Query query = firebaseFirestore.collection("RestaurantsNames").orderBy("restaurant_name");
-//                    FirestoreRecyclerOptions<Restaurant> options = new FirestoreRecyclerOptions.Builder<Restaurant>()
-//                            .setQuery(query, Restaurant.class)
-//                            .build();
-//                    adapter.updateOptions(options);
-//                }
-//                else {
-//                    adapter.updateOptions(options3);
-//                }
-//            }
-//
-//            @Override
-//            public void onNothingSelected(AdapterView<?> parent) {
-//            }
-//        });
+
+        restaurantSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+                Query query = firebaseFirestore.collection("RestaurantsNames").whereEqualTo("restaurant_name",s.toString()).orderBy("restaurant_name");
+                FirestoreRecyclerOptions<Restaurant> options2 = new FirestoreRecyclerOptions.Builder<Restaurant>()
+                        .setQuery(query, Restaurant.class)
+                        .build();
+
+                adapter.updateOptions(options2);
+            }
+        });
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                String Text = spinner.getSelectedItem().toString();
+
+                Query query3 = firebaseFirestore.collection("RestaurantsNames").whereEqualTo("district",Text);
+
+                Log.d(TAG, "onItemSelected: " + query3.toString());
+                FirestoreRecyclerOptions<Restaurant> options3 = new FirestoreRecyclerOptions.Builder<Restaurant>()
+                        .setQuery(query3, Restaurant.class)
+                        .build();
+
+                if (Text.equals("Select a District")){
+                    Query query = firebaseFirestore.collection("RestaurantsNames").orderBy("restaurant_name");
+                    FirestoreRecyclerOptions<Restaurant> options = new FirestoreRecyclerOptions.Builder<Restaurant>()
+                            .setQuery(query, Restaurant.class)
+                            .build();
+                    adapter.updateOptions(options);
+                }
+                else {
+                    adapter.updateOptions(options3);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
 
     }
 
+    public interface OnItemClickListener {
+        void onItemClick(int position);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        mListener = listener;
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+        firebaseFirestore.collection("Users").orderBy("district").get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                    }
+                });
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
+    }
 
     private class RestaurantViewHolder extends RecyclerView.ViewHolder {
 
@@ -186,6 +223,14 @@ public class RestaurantsActivity extends AppCompatActivity   {
             single_itemView = itemView.findViewById(R.id.single_item);
             contactResBtn = itemView.findViewById(R.id.contactResBtn);
 
+//            itemView.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    int position = getAdapterPosition();
+//
+//
+//                }
+//            });
         }
     }
 
