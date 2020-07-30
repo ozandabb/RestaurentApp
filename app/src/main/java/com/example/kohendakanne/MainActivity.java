@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
     ImageView logoutBtn;
     RelativeLayout main02;
     private TextView count_Restaurants;
+    private boolean mLocationPermissionGranted = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
                         finish();
                         break;
                     case R.id.ic_add:
-                        Intent runIntent = new Intent(MainActivity.this, AccountSetting.class);
+                        Intent runIntent = new Intent(MainActivity.this, MapActivity.class);
                         startActivity(runIntent);
                         finish();
                         break;

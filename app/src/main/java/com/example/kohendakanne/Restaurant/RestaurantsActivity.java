@@ -25,6 +25,7 @@ import android.widget.TextView;
 
 import com.example.kohendakanne.Adapters.ResAdapter;
 import com.example.kohendakanne.MainActivity;
+import com.example.kohendakanne.MapActivity;
 import com.example.kohendakanne.Models.Restaurant;
 import com.example.kohendakanne.ProfileActivity;
 import com.example.kohendakanne.R;
@@ -269,6 +270,13 @@ public class RestaurantsActivity extends AppCompatActivity implements AdapterVie
             single_itemView = itemView.findViewById(R.id.single_item);
             contactResBtn = itemView.findViewById(R.id.contactResBtn);
 
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
+
         }
     }
 
@@ -306,7 +314,7 @@ public class RestaurantsActivity extends AppCompatActivity implements AdapterVie
                         finish();
                         break;
                     case R.id.ic_add:
-                        Intent runIntent = new Intent(RestaurantsActivity.this, RegisterActivity.class);
+                        Intent runIntent = new Intent(RestaurantsActivity.this, MapActivity.class);
                         startActivity(runIntent);
                         finish();
                         break;

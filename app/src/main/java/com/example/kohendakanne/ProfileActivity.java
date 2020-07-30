@@ -111,7 +111,7 @@ public class ProfileActivity extends AppCompatActivity {
                         finish();
                         break;
                     case R.id.ic_add:
-                        Intent runIntent = new Intent(ProfileActivity.this, RegisterActivity.class);
+                        Intent runIntent = new Intent(ProfileActivity.this, MapActivity.class);
                         startActivity(runIntent);
                         finish();
                         break;

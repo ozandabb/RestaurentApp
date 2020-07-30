@@ -53,7 +53,7 @@ public class SingleRestaurantActivity extends AppCompatActivity {
         image = getIntent().getStringExtra("image");
         id = getIntent().getStringExtra("id");
 
-        Log.d(TAG, "ooooooooooooooooooooooooooooooooooooo " +resName +" : "  + resDistrict);
+        Log.d(TAG, "ooooooooooooooooooooooooooooooooooooo " +resName );
 
         textView = findViewById(R.id.textView1);
         textAddress = findViewById(R.id.textAddressGo);
@@ -67,9 +67,9 @@ public class SingleRestaurantActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent homeIntent2 = new Intent(SingleRestaurantActivity.this, MapActivity.class);
-                homeIntent2.putExtra("Restaurant_Name" , resName);
-                homeIntent2.putExtra("restaurant_id" ,resID );
-                homeIntent2.putExtra("id" ,id );
+//                homeIntent2.putExtra("Restaurant_Name" , resName);
+//                homeIntent2.putExtra("restaurant_id" ,resID );
+//                homeIntent2.putExtra("id" ,id );
                 startActivity(homeIntent2);
             }
         });
@@ -88,7 +88,6 @@ public class SingleRestaurantActivity extends AppCompatActivity {
             @Override
             public MenuViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
                 View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.single_menu_item, parent, false);
-
                 return new MenuViewHolder(view);
             }
 
@@ -177,7 +176,7 @@ public class SingleRestaurantActivity extends AppCompatActivity {
                         finish();
                         break;
                     case R.id.ic_add:
-                        Intent runIntent = new Intent(SingleRestaurantActivity.this, RegisterActivity.class);
+                        Intent runIntent = new Intent(SingleRestaurantActivity.this, MapActivity.class);
                         startActivity(runIntent);
                         finish();
                         break;

@@ -6,11 +6,14 @@ import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -18,6 +21,7 @@ import android.widget.Spinner;
 
 import com.example.kohendakanne.Models.MenuItems;
 import com.example.kohendakanne.Models.Restaurant;
+import com.example.kohendakanne.Restaurant.RestaurantsActivity;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -31,6 +35,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.GeoPoint;
@@ -53,6 +58,7 @@ import java.util.Map;
 public class MapActivity extends AppCompatActivity {
 
     private static final String TAG = "MapActivity";
+    private static final int ACTIVITY_NUM = 2;
     GoogleMap map;
     Spinner spType;
     Button btFind;
@@ -70,6 +76,8 @@ public class MapActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
+
+        setupBottomNavBar();
 
         spType = findViewById(R.id.spType);
         btFind = findViewById(R.id.btnFind);
@@ -243,6 +251,46 @@ public class MapActivity extends AppCompatActivity {
             }
         }
     }
+
+    private void setupBottomNavBar(){
+        BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavViewBar);
+
+        Menu menu = bottomNavigationView.getMenu();
+        MenuItem menuItem = menu.getItem(ACTIVITY_NUM);
+        menuItem.setChecked(true);
+
+
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()){
+                    case R.id.ic_home:
+                        Intent homeIntent = new Intent(MapActivity.this,MainActivity.class);
+                        startActivity(homeIntent);
+                        finish();
+                        break;
+                    case R.id.ic_category:
+                        Intent ExerciseIntent = new Intent(MapActivity.this, RestaurantsActivity.class);
+                        startActivity(ExerciseIntent);
+                        finish();
+                        break;
+                    case R.id.ic_add:
+                        Intent runIntent = new Intent(MapActivity.this, MapActivity.class);
+                        startActivity(runIntent);
+                        finish();
+                        break;
+                    case R.id.ic_device:
+                        Intent deviceIntent = new Intent(MapActivity.this, ProfileActivity.class);
+                        startActivity(deviceIntent);
+                        finish();
+                        break;
+                }
+
+                return false;
+            }
+        });
+    }
+
 
 
     //    public double getGeoppoint(){
