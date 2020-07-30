@@ -56,7 +56,7 @@ public class LoginActivity extends AppCompatActivity {
                 String loginEmail = loginEmailText.getText().toString();
                 String loginPass = loginPasswordText.getText().toString();
                 if (!TextUtils.isEmpty(loginEmail) && !TextUtils.isEmpty(loginPass)) {
-                    if (loginEmail.equals("admin@mail.com") && loginPass.equals("admin97"))
+                    if (loginEmail.equals("kohenda.kanne@gmail.com") && loginPass.equals("Kohend@90SL"))
                     {
                         mAuth.signInWithEmailAndPassword(loginEmail,loginPass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                             @Override

@@ -23,7 +23,7 @@ public class AdminLogin extends AppCompatActivity {
             pinEntry.setOnPinEnteredListener(new PinEntryEditText.OnPinEnteredListener() {
                 @Override
                 public void onPinEntered(CharSequence str) {
-                    if (str.toString().equals("1234567")) {
+                    if (str.toString().equals("6935183")) {
                         Intent goaDMIN = new Intent(AdminLogin.this, AdminDashboard.class);
                         startActivity(goaDMIN);
                         finish();

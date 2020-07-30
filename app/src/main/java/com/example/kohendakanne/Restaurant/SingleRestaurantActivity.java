@@ -4,7 +4,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,23 +14,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.example.kohendakanne.AccountSetting;
 import com.example.kohendakanne.MainActivity;
 import com.example.kohendakanne.MapActivity;
 import com.example.kohendakanne.Models.MenuItems;
-import com.example.kohendakanne.Models.Restaurant;
 import com.example.kohendakanne.ProfileActivity;
 import com.example.kohendakanne.R;
 import com.example.kohendakanne.RegisterActivity;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
-
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.firestore.Query;
-
 import com.squareup.picasso.Picasso;
 
 public class SingleRestaurantActivity extends AppCompatActivity {
@@ -41,7 +35,6 @@ public class SingleRestaurantActivity extends AppCompatActivity {
 
     private TextView textView, direction, textAddress;
     String resName, resDistrict, resID, image, id;
-    GeoPoint geoPoint;
     private FirebaseFirestore firebaseFirestore;
     ImageView restImage;
     private FirestoreRecyclerAdapter adaptera;
@@ -59,6 +52,8 @@ public class SingleRestaurantActivity extends AppCompatActivity {
         resID = getIntent().getStringExtra("restaurant_id");
         image = getIntent().getStringExtra("image");
         id = getIntent().getStringExtra("id");
+
+        Log.d(TAG, "ooooooooooooooooooooooooooooooooooooo " +resName +" : "  + resDistrict);
 
         textView = findViewById(R.id.textView1);
         textAddress = findViewById(R.id.textAddressGo);

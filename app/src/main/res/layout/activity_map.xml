@@ -4,7 +4,25 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".MapActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        
+        <Spinner
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:id="@+id/spType"
+            android:layout_height="50dp" />
+        <Button
+            android:layout_width="wrap_content"
+            android:id="@+id/btnFind"
+            android:text="Find"
+            android:layout_height="50dp"/>
+    </LinearLayout>
 
     <fragment
         android:layout_width="match_parent"
